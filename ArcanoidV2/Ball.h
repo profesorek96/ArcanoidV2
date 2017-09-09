@@ -10,6 +10,16 @@ public:
 	~Ball()=default; // dodanie destruktora domyslnego
 
 	void update();
+
+	void moveUp();
+	void moveDown();
+	void moveRight();
+	void moveLeft();
+
+
+
+	Vector2f getPosition();
+
 	float left();
 	float right();
 	float top();
@@ -18,7 +28,7 @@ public:
 private:
 	CircleShape shape;
 	const float ballRadious{ 10.0f };
-	const float ballVelocity{ 3.0f };
+	const float ballVelocity{ 6.0f };
 	Vector2f velocity{ ballVelocity, ballVelocity };
 	void draw(RenderTarget& target, RenderStates state) const override; //funkcja stala nadpisujemy metode wirtualna z interfeju Drawable
 
