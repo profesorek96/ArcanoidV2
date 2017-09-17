@@ -6,6 +6,7 @@
 #include <SFML/Window.hpp>
 #include "Ball.h"
 #include "Paddle.h"
+#include "Block.h"
 
 using namespace sf;
 using namespace std;
@@ -38,6 +39,37 @@ bool collisionTest(Paddle& paddle, Ball& ball)
 
 }
 
+bool collisionTest(Block& block, Ball& ball)
+{
+	if (!isIntersecting(block, ball))return false;
+	
+	block.destroy();
+
+	float overlapLeft{ ball.right() - block.left() };//przesuniecie bloczka
+	float overlapRight{ block.left() - ball.left() };
+
+	float overlapTop{ ball.bootom()-block.top() };
+	float overlapBottom{block.bootom()-ball.top()};
+
+	bool ballFromLeft(abs(overlapLeft) < abs(overlapRight));
+	bool ballFromTop(abs(overlapTop) < abs(overlapBottom));
+
+	float minOverlapX{ ballFromLeft ? overlapLeft : overlapRight }; //wyrazenie warunkowe
+	float minOverlapY{ballFromTop ? overlapTop : overlapBottom};
+
+
+	if (abs(minOverlapX) < abs(minOverlapY))
+	{
+		//odbijamy w poziomie przesuwanie w poziomie
+		ballFromLeft ? ball.moveLeft() : ball.moveRight();
+	}
+	else
+	{
+		//przesuwnie w pionie
+		ballFromTop ? ball.moveUp() : ball.moveDown();
+	}
+
+}
 
 int main()
 {
@@ -46,6 +78,18 @@ int main()
 	RenderWindow window{ VideoMode{800,600}, "ArcanoidV2" }; // nowy sposob inicjalizacji cpp11
 	window.setFramerateLimit(60);
 	Event event; //ewent przechowujace zdazenia w obrebie okna aby nie byloz frizowane
+	unsigned blocksX{ 10 }, blocksY{ 4 }, blockWidth{ 60 }, blockHeight{ 20 };
+	vector<Block> blocks;
+	for (int i = 0; i < blocksY; i++)
+	{
+		for (int j = 0; j < blocksX; j++)
+		{
+			blocks.emplace_back((j+1)*(blockWidth+10),(i+2)*(blockHeight+5),blockWidth,blockHeight); /// rozni sie od push_back tym ze najpier czeka na konstrukto a pozniej dodaje
+		}
+	}
+
+
+
 	while (true) 
 	{
 		window.clear(Color::Black);
@@ -59,8 +103,20 @@ int main()
 		paddle.update();
 		collisionTest(paddle, ball);
 
+		for (auto& block : blocks) if (collisionTest(block, ball))break; //sprawdzamy kolizje pomiedzy bloczkiemz  kulka
+
+		auto iterator = remove_if(begin(blocks), end(blocks), [](Block& block) {return block.isDestroyed(); }); //wyrazenie lambda
+		blocks.erase(iterator,end(blocks)); //przyjmuje 2 iteratory
+		
+
 		window.draw(ball);
 		window.draw(paddle);
+
+		for (auto& block : blocks) //cpp11 autoloop iterujemy po kazdym bloku z kontenera taki foreatch
+			window.draw(block);
+
+
+
 		window.display();
 
 	}

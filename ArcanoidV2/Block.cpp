@@ -46,7 +46,7 @@ bool Block::isDestroyed()
 }
 void Block::destroy()
 {
-	this->destroyed = false;
+	this->destroyed = true;
 }
 Vector2f Block::getSize()
 {
