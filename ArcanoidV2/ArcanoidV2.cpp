@@ -73,8 +73,9 @@ bool collisionTest(Block& block, Ball& ball)
 
 int main()
 {
-	Ball ball(400, 300);
-	Paddle paddle(400, 550);
+	srand(time(NULL));
+	Ball ball(float(rand()%800), float(rand()%300+300));
+	Paddle paddle(float(rand() % 600), 580);
 	RenderWindow window{ VideoMode{800,600}, "ArcanoidV2" }; // nowy sposob inicjalizacji cpp11
 	window.setFramerateLimit(60);
 	Event event; //ewent przechowujace zdazenia w obrebie okna aby nie byloz frizowane

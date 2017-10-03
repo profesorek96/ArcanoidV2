@@ -8,7 +8,7 @@ Paddle::Paddle(float t_X, float t_Y)
 	//shape.setSize(Vector2f(20, 20)); stary standard
 	//shape.setSize({ 20,20 }); // to co wyzej tylko ze standardu c11
 	shape.setSize({this->paddleWidth,this->paddleHeight});
-	shape.setFillColor(Color::Green);
+	shape.setFillColor(Color::Yellow);
 	shape.setOrigin(paddleWidth/ 2.f,paddleHeight/2.f); //ustawia origin na srodku
 
 }

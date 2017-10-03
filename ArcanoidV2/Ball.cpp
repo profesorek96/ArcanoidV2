@@ -6,7 +6,7 @@ Ball::Ball(float t_x,float t_y)
 {
 	shape.setPosition(t_x, t_y);
 	shape.setRadius(this->ballRadious);
-	shape.setFillColor(Color::White);
+	shape.setFillColor(Color::Cyan);
 	shape.setOrigin(this->ballRadious, this->ballRadious);  //punkt wzgledem beda wszysktie rotacje domyslnie lewy gorny rog
 }
 

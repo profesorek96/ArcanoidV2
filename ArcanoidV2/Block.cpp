@@ -8,7 +8,7 @@ Block::Block(float t_X, float t_Y, float t_Width, float t_Height)
 	//shape.setSize(Vector2f(20, 20)); stary standard
 	//shape.setSize({ 20,20 }); // to co wyzej tylko ze standardu c11
 	shape.setSize({ t_Width,t_Height });
-	shape.setFillColor(Color::Yellow);
+	shape.setFillColor(Color::Green);
 	shape.setOrigin(t_Width / 2.f, t_Height / 2.f); //ustawia origin na srodku
 }
 void Block::draw(RenderTarget& target, RenderStates state)const //slowko const oznacza ze metoda nei bedzie zmieniac pol klasy
