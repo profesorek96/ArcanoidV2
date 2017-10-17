@@ -39,12 +39,12 @@ bool collisionTest(Paddle& paddle, Ball& ball)
 
 }
 
-bool collisionTest(Block& block, Ball& ball)
+bool collisionTest(Block& block, Ball& ball, int& count)
 {
 	if (!isIntersecting(block, ball))return false;
 	
 	block.destroy();
-
+	count--;
 	float overlapLeft{ ball.right() - block.left() };//przesuniecie bloczka
 	float overlapRight{ block.left() - ball.left() };
 
@@ -73,12 +73,15 @@ bool collisionTest(Block& block, Ball& ball)
 
 int main()
 {
+
+
 	srand(time(NULL));
 	Ball ball(float(rand()%800), float(rand()%300+300));
 	Paddle paddle(float(rand() % 600), 580);
 	RenderWindow window{ VideoMode{800,600}, "ArcanoidV2" }; // nowy sposob inicjalizacji cpp11
 	window.setFramerateLimit(60);
 	Event event; //ewent przechowujace zdazenia w obrebie okna aby nie byloz frizowane
+	int count_block = 0;
 	unsigned blocksX{ 10 }, blocksY{ 4 }, blockWidth{ 60 }, blockHeight{ 20 };
 	vector<Block> blocks;
 	for (int i = 0; i < blocksY; i++)
@@ -86,9 +89,9 @@ int main()
 		for (int j = 0; j < blocksX; j++)
 		{
 			blocks.emplace_back((j+1)*(blockWidth+10),(i+2)*(blockHeight+5),blockWidth,blockHeight); /// rozni sie od push_back tym ze najpier czeka na konstrukto a pozniej dodaje
+			count_block++;
 		}
 	}
-
 
 
 	while (true) 
@@ -104,7 +107,7 @@ int main()
 		paddle.update();
 		collisionTest(paddle, ball);
 
-		for (auto& block : blocks) if (collisionTest(block, ball))break; //sprawdzamy kolizje pomiedzy bloczkiemz  kulka
+		for (auto& block : blocks) if (collisionTest(block, ball, count_block))break; //sprawdzamy kolizje pomiedzy bloczkiemz  kulka
 
 		auto iterator = remove_if(begin(blocks), end(blocks), [](Block& block) {return block.isDestroyed(); }); //wyrazenie lambda
 		blocks.erase(iterator,end(blocks)); //przyjmuje 2 iteratory
@@ -119,6 +122,7 @@ int main()
 
 
 		window.display();
+		if (count_block == 0)return 0;
 
 	}
 
