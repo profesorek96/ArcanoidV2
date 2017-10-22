@@ -1,5 +1,5 @@
 # ArcanoidV2
-Simple clone of game Arcanoid. The game make in C++ with library SFML.
+Simple clone of game Arkanoid. The game make in C++ with library SFML.
 <br>
 <br>
 <br>
