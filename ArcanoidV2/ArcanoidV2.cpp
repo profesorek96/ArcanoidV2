@@ -74,6 +74,23 @@ bool collisionTest(Block& block, Ball& ball, int& count)
 int main()
 {
 
+	Texture LOGO;
+	if (!LOGO.loadFromFile("texture\\logo.png"))
+	{
+
+	}
+	Sprite logo_s(LOGO);
+	logo_s.setTexture(LOGO);
+	
+
+	Texture PLAY;
+	if (!PLAY.loadFromFile("texture\\play.png"))
+	{
+
+	}
+	Sprite play_s(PLAY);
+	play_s.setTexture(PLAY);
+	play_s.setPosition(300, 400);
 
 	srand(time(NULL));
 	Ball ball(float(rand()%800), float(rand()%300+300));
@@ -81,7 +98,31 @@ int main()
 	RenderWindow window{ VideoMode{800,600}, "ArcanoidV2" }; // nowy sposob inicjalizacji cpp11
 	window.setFramerateLimit(60);
 	Event event; //ewent przechowujace zdazenia w obrebie okna aby nie byloz frizowane
-	int count_block = 0;
+
+	while (!Keyboard::isKeyPressed(Keyboard::Key::P))
+	{
+		window.clear(Color::Black);
+		window.pollEvent(event);
+		if (event.type == Event::Closed)
+		{
+			window.close();
+			return 0;
+			break;
+
+		}
+
+
+		window.draw(logo_s);
+		window.draw(play_s);
+		window.display();
+
+	}
+
+
+
+
+
+	int count_block = 40;
 	unsigned blocksX{ 10 }, blocksY{ 4 }, blockWidth{ 60 }, blockHeight{ 20 };
 	vector<Block> blocks;
 	for (int i = 0; i < blocksY; i++)
@@ -89,12 +130,12 @@ int main()
 		for (int j = 0; j < blocksX; j++)
 		{
 			blocks.emplace_back((j+1)*(blockWidth+10),(i+2)*(blockHeight+5),blockWidth,blockHeight); /// rozni sie od push_back tym ze najpier czeka na konstrukto a pozniej dodaje
-			count_block++;
+			//count_block++;
 		}
 	}
 
 
-	while (true) 
+	while (true)
 	{
 		window.clear(Color::Black);
 		window.pollEvent(event);
@@ -122,7 +163,31 @@ int main()
 
 
 		window.display();
-		if (count_block == 0)return 0;
+		if (count_block == 0)
+		{
+
+			Texture WIN;
+			if (!WIN.loadFromFile("texture\\win.png"))
+			{
+
+			}
+			Sprite win_s(WIN);
+			win_s.setTexture(WIN);
+			win_s.setPosition(210, 100);
+			window.clear(Color::Black);
+			window.draw(win_s);
+			window.draw(play_s);
+			window.display();
+
+			while (!Keyboard::isKeyPressed(Keyboard::Key::P));
+
+			window.close();
+			main();
+			return 0;
+
+
+
+		}
 
 	}
 
