@@ -8,6 +8,7 @@ Ball::Ball(float t_x,float t_y)
 	shape.setRadius(this->ballRadious);
 	shape.setFillColor(Color::Cyan);
 	shape.setOrigin(this->ballRadious, this->ballRadious);  //punkt wzgledem beda wszysktie rotacje domyslnie lewy gorny rog
+	bottom_fail = false;
 }
 
 void Ball::draw(RenderTarget& target, RenderStates state)const //slowko const oznacza ze metoda nei bedzie zmieniac pol klasy
@@ -34,7 +35,9 @@ void Ball :: update()
 	}
 	else if (this->bootom() > 600)
 	{
-		velocity.y = -ballVelocity;
+
+		bottom_fail = true;
+		//velocity.y = -ballVelocity;
 
 	}
 

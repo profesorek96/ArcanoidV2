@@ -21,7 +21,7 @@ private:
 
 	void draw(RenderTarget& target, RenderStates state) const override; //funkcja stala nadpisujemy metode wirtualna z interfeju Drawable
 	RectangleShape shape;
-	const float paddleWidth{ 200.0f };
+	const float paddleWidth{ 120.0f };
 	const float paddleHeight{ 20.0f };
 	const float paddleVelocity{ 8.0f };
 	Vector2f velocity{ paddleVelocity,0.f };

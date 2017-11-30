@@ -93,7 +93,7 @@ int main()
 	play_s.setPosition(300, 400);
 
 	srand(time(NULL));
-	Ball ball(float(rand()%800), float(rand()%300+300));
+	Ball ball(float(rand()%800), 300);
 	Paddle paddle(float(rand() % 600), 580);
 	RenderWindow window{ VideoMode{800,600}, "ArcanoidV2" }; // nowy sposob inicjalizacji cpp11
 	window.setFramerateLimit(60);
@@ -163,6 +163,41 @@ int main()
 
 
 		window.display();
+		if (ball.bottom_fail)
+		{
+			Texture GAMEOVER;
+			if (!GAMEOVER.loadFromFile("texture\\gameover.png"))
+			{
+
+			}
+			Sprite gameover_s(GAMEOVER);
+			gameover_s.setTexture(GAMEOVER);
+			gameover_s.setPosition(170, 100);
+			window.clear(Color::Black);
+			window.draw(gameover_s);
+			window.draw(play_s);
+			window.display();
+
+			while (!Keyboard::isKeyPressed(Keyboard::Key::P))
+			{
+				window.pollEvent(event);
+				if (event.type == Event::Closed)
+				{
+					window.close();
+					return 0;
+					break;
+
+				}
+			}
+
+			window.close();
+			main();
+			return 0;
+
+		}
+
+
+
 		if (count_block == 0)
 		{
 
@@ -179,7 +214,17 @@ int main()
 			window.draw(play_s);
 			window.display();
 
-			while (!Keyboard::isKeyPressed(Keyboard::Key::P));
+			while (!Keyboard::isKeyPressed(Keyboard::Key::P))
+			{
+				window.pollEvent(event);
+				if (event.type == Event::Closed)
+				{
+					window.close();
+					return 0;
+					break;
+
+				}
+			}
 
 			window.close();
 			main();
